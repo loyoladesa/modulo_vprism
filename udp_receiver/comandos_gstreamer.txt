@@ -1,0 +1,16 @@
+#Autor: Sidney Loyola de Sá
+
+
+#transmite microfone udp
+gst-launch-1.0 -v alsasrc ! wavenc ! udpsink host=localhost port=12345
+
+
+#play wave file
+gst-launch-1.0 filesrc location=teste.wav ! wavparse ! audioconvert ! alsasink
+
+
+#Tentativa de transmitir audio via udp
+gst-launch-1.0 filesrc location=teste.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+
+
+
