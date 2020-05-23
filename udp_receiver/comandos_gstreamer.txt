@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 #Autor: Sidney Loyola de Sá
 
+=======
+>>>>>>> origin/master
 
 #transmite microfone udp
 gst-launch-1.0 -v alsasrc ! wavenc ! udpsink host=localhost port=12345
