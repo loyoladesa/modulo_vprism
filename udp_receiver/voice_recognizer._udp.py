@@ -1,3 +1,9 @@
+'''
+Módulo para reconhecimento de voz recebido em uma porta com o protocolo udp.
+Desenvolvido por Sidney Loyola de Sá
+Data: 23/05/2020
+'''
+
 import pyaudio
 import socket
 import speech_recognition as sr
@@ -7,31 +13,36 @@ frames = []
 
 
 def udpStream(CHUNK):
+    # Método para receber o fluxo udp
     udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+    # define o IP e a porta
     udp.bind(("localhost", 12345))
 
     while True:
         soundData, addr = udp.recvfrom(CHUNK * CHANNELS * 2)
         frames.append(soundData)
 
-
-
     udp.close()
 
 
 def play(stream, CHUNK):
+    #método para manipular o aúdio recebido
     BUFFER = 10
     while True:
         if len(frames) == BUFFER:
             while True:
+                print("Recebendo Aúdio")
                 stream.write(frames.pop(0), CHUNK)
                 microfone = sr.Recognizer()
 
+                # A próxima linha capta a fonte do aúdio
                 with sr.Microphone(pyaudio.PyAudio().get_device_count() - 1) as source:
 
                     # Chama um algoritmo de reducao de ruidos no som
                     microfone.adjust_for_ambient_noise(source)
 
+                    #Armazena o aúdio em uma variável
                     audio = microfone.listen(source)
 
                 try:
@@ -43,10 +54,8 @@ def play(stream, CHUNK):
                     print("Você disse: " + frase)
 
                 # Se nao reconheceu o padrao de fala, exibe a mensagem
-                except sr.UnkownValueError:
+                except :
                     print("Não entendi")
-
-
 
 
 if __name__ == "__main__":
@@ -56,8 +65,6 @@ if __name__ == "__main__":
     RATE = 44100
 
     p = pyaudio.PyAudio()
-
-
 
     stream = p.open(format=FORMAT,
                     channels=CHANNELS,
