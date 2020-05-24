@@ -1,0 +1,12 @@
+# pyaudio
+# socket
+# speech_recognition as sr
+# Thread
+# sys
+
+
+Instalação:
+
+pip install SpeechRecognition
+pip install pyaudio
+
