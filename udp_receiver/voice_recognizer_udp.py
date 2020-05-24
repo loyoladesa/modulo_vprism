@@ -1,3 +1,4 @@
+# This Python file uses the following encoding: utf-8
 '''
 Módulo para reconhecimento de voz recebido em uma porta com o protocolo udp.
 Desenvolvido por Sidney Loyola de Sá
@@ -27,35 +28,42 @@ def udpStream(CHUNK):
 
 
 def play(stream, CHUNK):
-    #método para manipular o aúdio recebido
+    # método para manipular o aúdio recebido
     BUFFER = 10
     while True:
         if len(frames) == BUFFER:
             while True:
                 print("Recebendo Aúdio")
-                stream.write(frames.pop(0), CHUNK)
+
+
                 microfone = sr.Recognizer()
 
                 # A próxima linha capta a fonte do aúdio
-                with sr.Microphone(pyaudio.PyAudio().get_device_count() - 1) as source:
+                with sr.Microphone() as source:
 
                     # Chama um algoritmo de reducao de ruidos no som
                     microfone.adjust_for_ambient_noise(source)
 
-                    #Armazena o aúdio em uma variável
+                    # Armazena o aúdio em uma variável
                     audio = microfone.listen(source)
+                    stream.write(frames.pop(0), CHUNK)
+
 
                 try:
 
                     # Passa a variável para o algoritmo reconhecedor de padroes
                     frase = microfone.recognize_google(audio, language='pt-BR')
-
                     # Retorna a frase pronunciada
                     print("Você disse: " + frase)
 
+
+
                 # Se nao reconheceu o padrao de fala, exibe a mensagem
-                except :
-                    print("Não entendi")
+                except:
+                    print("*******")
+
+                print(frase)
+
 
 
 if __name__ == "__main__":
@@ -63,6 +71,8 @@ if __name__ == "__main__":
     CHUNK = 1024
     CHANNELS = 2
     RATE = 44100
+
+    print("aqui!!!")
 
     p = pyaudio.PyAudio()
 
