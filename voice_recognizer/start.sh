@@ -7,7 +7,7 @@ export GST_DEBUG="*:0"
 # $3 = PORT in MQTT Server
 
 # inside container
-python /root/face_counter/voice_recognizer.py $1 $2 $3
+python /root/voice_recognizer/voice_recognizer.py $1 $2 $3
 
 # local
 # python3 voice_recognizer.py $1 $2 $3
