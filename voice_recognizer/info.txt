@@ -1,0 +1,75 @@
+O arquivo voice_recognizer.py recebe um fluxo de áudio udp e o transforma em texto enviando para um servidor MQTT
+
+Os Parâmetros são:
+
+[1] : Tópico MQTT
+[2] : Hostname MQTT
+[3] : PORTA MQTT
+
+Servidor MQTT para teste:
+TÓPICO: v-prism
+Hostname: env-3019652.users.scale.virtualcloud.com.br
+Porta: 11002
+
+#######################################################
+
+As dependências são:
+# pyaudio
+# socket
+# speech_recognition as sr
+# Thread
+# sys
+# paho-mqtt
+
+Instalação:
+
+pip install SpeechRecognition
+pip install PyAudio
+pip install paho-mqtt
+
+########################################################
+
+Para executá-lo no ubuntu:
+
+python voice_recognizer.py v-prism env-3019652.users.scale.virtualcloud.com.br 11002
+
+ou
+
+python3 voice_recognizer.py v-prism env-3019652.users.scale.virtualcloud.com.br 11002
+
+#########################################################
+
+Ele está Configurado:
+
+IP = "172.17.0.1"
+PORT = 8000
+
+#########################################################
+
+Para testar execute o arquivo microphone.py:
+
+python microphone.py
+
+ou
+
+python3 microphone.py
+
+#########################################################
+
+Para testar envie aúdio com o Gstreamer:
+
+#transmite microfone udp
+gst-launch-1.0 -v alsasrc ! wavenc ! udpsink host=172.17.0.1 port=8000
+
+
+#########################################################
+
+O programa irá imprimir no terminal a mensagem :
+
+Recebendo Fluxo de Aúdio
+
+Ao transmitir no microfone ele mostrará:
+
+message send "frase que você falou"
+message topic = "tópico passado como parâmetro"
+
