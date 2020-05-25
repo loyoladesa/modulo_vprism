@@ -1,8 +1,15 @@
 # This Python file uses the following encoding: utf-8
 '''
 Capta o aúdio do microfone e envia em uma porta com o protocolo udp
-Desenvolvido por Sidney Loyola de Sá
-Data: 23/05/2020
+Created by: Sidney Loyola de Sá
+Date: 23/05/2020
+Last Modified: 25/05/2020
+
+Configuração:
+
+IP = "172.17.0.1"
+PORT = 8000
+
 '''
 import pyaudio
 import socket
@@ -17,7 +24,7 @@ def udpStream():
 
     while True:
         if len(frames) > 0:
-            udp.sendto(frames.pop(0), ("localhost", 12345))
+            udp.sendto(frames.pop(0), ("172.17.0.1", 8000))
 
     udp.close()
 

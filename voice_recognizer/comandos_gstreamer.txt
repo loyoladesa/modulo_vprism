@@ -13,5 +13,7 @@ gst-launch-1.0 filesrc location=teste.wav ! wavparse ! audioconvert ! alsasink
 #Tentativa de transmitir audio via udp
 gst-launch-1.0 filesrc location=teste.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
 
-
+#Amiente mqtt para teste
+host_name = "env-3019652.users.scale.virtualcloud.com.br"
+porta = 11002
 
