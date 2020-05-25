@@ -1,4 +1,4 @@
-# This is a sample Dockerfile you can modify to deploy your own app based on face_recognition
+# This is a sample Dockerfile you can modify to deploy your own app based on voice_recognizer
 
 FROM python:3.6-slim-stretch
 
@@ -63,6 +63,8 @@ RUN pip3 install paho-mqtt
 RUN pip3 install opencv-python
 RUN pip3 install numpy==1.15.4
 RUN pip3 install face_recognition
+RUN pip3 install SpeechRecognition
+RUN pip3 install PyAudio
 
 RUN apt-get install -y --fix-missing libgirepository1.0-dev
 RUN pip install --no-binary gobject PyGObject
@@ -71,6 +73,6 @@ RUN apt-get install -y --fix-missing \
     tcpdump \
     net-tools
 
-COPY . /root/face_counter
+COPY . /root/voice_recognizer
 
-ENTRYPOINT ["./root/face_counter/start.sh"]
+ENTRYPOINT ["./root/voice_recognizer/start.sh"]
