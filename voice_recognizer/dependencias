@@ -3,10 +3,12 @@
 # speech_recognition as sr
 # Thread
 # sys
+# paho-mqtt
 
 
 Instalação:
 
 pip install SpeechRecognition
 pip install pyaudio
+pip install paho-mqtt
 
