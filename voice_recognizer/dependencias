@@ -15,6 +15,10 @@ sudo apt-get install python3 python3-all-dev python3-pip build-essential swig gi
 sudo apt-get install portaudio19-dev python-pyaudio
 
 pip3 install PyAudio
+pip install SpeechRecognition
+
+sudo apt-get install python3 python3-all-dev python3-pip build-essential swig git libpulse-dev libasound2-dev
+pip3 install pocketsphinx
 
 pip install SpeechRecognition
 pip install PyAudio
