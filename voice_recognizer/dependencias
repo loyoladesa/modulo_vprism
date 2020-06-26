@@ -5,8 +5,8 @@
 # sys
 # paho-mqtt
 
+sudo apt install python-pip
 
-Instalação:
 
 pip install SpeechRecognition
 pip install PyAudio
