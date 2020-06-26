@@ -9,9 +9,12 @@ sudo apt install python-pip
 sudo apt-get install gcc
 sudo apt-get install python3-distutils
 
+sudo apt-get install python3 python3-all-dev python3-pip build-essential swig git libpulse-dev
+
+
 sudo apt-get install portaudio19-dev python-pyaudio
 
-pip install PyAudio
+pip3 install PyAudio
 
 pip install SpeechRecognition
 pip install PyAudio
