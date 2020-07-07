@@ -2,6 +2,8 @@
 
 FROM python:3.6-slim-stretch
 
+
+
 RUN apt-get -y update
 RUN apt-get install -y --fix-missing \
     build-essential \
@@ -19,10 +21,16 @@ RUN apt-get install -y --fix-missing \
     libjpeg-dev \
     liblapack-dev \
     libswscale-dev \
+    libasound2-dev \
+    libasound-dev \
+    libpulse-dev \
+    portaudio19-dev \
+    libportaudio2  \
     pkg-config \
     python3-dev \
     python3-numpy \
     software-properties-common \
+    swig \
     zip \
     bash \
     python-gi \
@@ -57,14 +65,36 @@ RUN apt-get install -y --fix-missing \
     python3-gi \
     python3-gst-1.0
 
+#RUN apt-get install libasound-dev
+#RUN apt-get update
+#RUN apt-get install libasound2-dev
+
+
+#RUN apt-get --assume-yes install libasound-dev portaudio19-dev     libportaudio2 libportaudiocpp0
+RUN pip3 install pyaudio
+RUN pip3 install websocket-client
+RUN pip3 install playsound
+
+#RUN apt-get install libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0
+
+
+#RUN apt-get install python3 python3-all-dev python3-pip build-essential swig git libpulse-dev
+
+#RUN apt-get install portaudio19-dev python-pyaudio
+#RUN apt-get install python3 python3-all-dev python3-pip build-essential swig git libpulse-dev libasound2-dev
+
 RUN python -m pip install --upgrade pip
+
+#RUN apt-get install python-pyaudio python3-pyaudio
 
 RUN pip3 install paho-mqtt
 RUN pip3 install opencv-python
 RUN pip3 install numpy==1.15.4
-RUN pip3 install face_recognition
+
+RUN pip3 install pocketsphinx
+
 RUN pip3 install SpeechRecognition
-RUN pip3 install PyAudio
+#RUN pip3 install PyAudio
 
 RUN apt-get install -y --fix-missing libgirepository1.0-dev
 RUN pip install --no-binary gobject PyGObject
