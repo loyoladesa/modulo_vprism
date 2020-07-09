@@ -10,6 +10,7 @@ Parâmetros:
 [1] : Tópico MQTT
 [2] : Hostname MQTT
 [3] : PORTA MQTT
+[4]: MODE - ON - utiliza API do google (precisa de Internet) OFF - utiliza o Sphinx - Executa Offline
 
 Servidor MQTT para teste:
 TÓPICO: v-prism
@@ -43,39 +44,7 @@ import logging
 
 frames = []
 logs = []
-lib = ""
-
-homeDir = path.abspath(path.dirname(__file__))  # obtemos o diretório home
-logFile = path.join(homeDir, "audio_recognizer.log")  # criamos o nome do arquivo de logger
-
-# Criamos o logger
-logger = logging.getLogger(__name__)  # __name__ é uma variável que contem o nome do módulo. Assim, saberemos que módulo emitiu a mensagem
-logger.setLevel(logging.INFO)  # neste experimento queremos apresentar apenas as mensagens de INFO e as inferiores (WARNING, ERROR, CRITICAL)
-
-
-# Criamos um handler para enviar as mensagens para um arquivo
-logger_handler = logging.FileHandler(logFile, mode='w')
-logger_handler.setLevel(logging.INFO)
-
-# o mode="w" faz com que a cada nova execução do programa, o logger anterior é apagado.
-#Use a forma mode="a" para adicionar novas mensagens sem apagar o arquivo anterior
-
-# Especifique a formatação da mensagem
-logger_formatter = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
-
-# Associe esta formatação ao  Handler
-logger_handler.setFormatter(logger_formatter)
-
-# Associe o Handler ao  Logger
-logger.addHandler(logger_handler)
-
-# Para emitir uma mensagem no nível info utilizamos a forma:
-logger.info('Logger OK')
-
-#outras formas possíveis:
-# .logger.critical(msg)
-#.logger.error(msg)
-#.logger.warning(msg)
+mode = ""
 
 #variável booleana de controle
 recebeu = False
@@ -86,26 +55,27 @@ client = mqtt.Client("vms_voice_recognizer")
 
 
 def udpStream(CHUNK, IP, PORT):
-    # Função para receber o fluxo udp
+    print("Função para receber o fluxo udp", flush=True)
+
 
     udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     # define o IP e a porta
-    udp.bind((IP, PORT))
+    udp.bind(('', PORT))
 
     while True:
+        #print("recebendo ...",flush=True)
         sound_data, addr = udp.recvfrom(CHUNK * CHANNELS * 2)
         frames.append(sound_data)
 
     udp.close()
 
 
-def play(stream, CHUNK):
+def transcribe(CHUNK):
     # Função para manipular o aúdio recebido
 
     buffer = 10
     print("Recebendo Fluxo de Aúdio:",flush=True)
-    #print(p.get_sample_size(FORMAT))
 
     global frase
     global recebeu
@@ -113,19 +83,18 @@ def play(stream, CHUNK):
     while True:
         if len(frames) == buffer:
             while True:
-
+                #print("Análise do Buffer")
                 voice_recognizer = sr.Recognizer()
                 arquivoTemporario = tempfile.TemporaryFile()
-
-
 
                 with wave.open(arquivoTemporario, 'wb') as wf:
                     wf.setnchannels(CHANNELS)
                     wf.setsampwidth(2)
                     wf.setframerate(RATE)
                     wf.writeframes(b''.join(frames))
-
                 arquivoTemporario.seek(0)
+
+                #print("Terminou de Montar o Arquivo Temporário")
 
 
                 # A próxima linha capta a fonte do aúdio
@@ -134,30 +103,29 @@ def play(stream, CHUNK):
                     # Chama um algoritmo de reducao de ruidos no som
                     voice_recognizer.adjust_for_ambient_noise(source)
 
-                    # Armazena o aúdio em uma variável
+                    #print("Armazena o aúdio em uma variável")
                     audio = voice_recognizer.record(source)
 
-                if(lib == "OFF"):
+                if(mode == "OFF"):
                     try:
                         # Passa a variável para o algoritmo reconhecedor de padroes
-                        # Transforma o Audio em Texto
+                        #print("Transforma o Audio em Texto Sphinx",flush=True)
                         frase = voice_recognizer.recognize_sphinx(audio)
-                        print("Audio: " + frase,flush=True)
+                        print("Audio: " + frase, flush=True)
                         recebeu = True
                         frames.clear()
 
                     # Se nao reconheceu o padrao de fala registra no log
                     except sr.UnknownValueError:
                         msg = "Sphinx could not understand audio"
-                        logger.error(msg)
+                       # print(msg,flush=True)
                     except sr.RequestError as e:
                         msg = "Sphinx error; {0}".format(e)
-                        logger.error(msg)
+                        #print(msg,flush=True)
                 else:
                     try:
-
                         # Passa a variável para o algoritmo reconhecedor de padroes
-                        # Transforma o Audio em Texto
+                        #print("Transforma o Audio em Texto Google",flush=True)
                         frase = voice_recognizer.recognize_google(audio)
                         print("Audio: " + frase,flush=True)
                         recebeu = True
@@ -166,12 +134,10 @@ def play(stream, CHUNK):
                     # Se nao reconheceu o padrao de fala registra no log
                     except sr.UnknownValueError:
                         msg = "Google could not understand audio"
-                        logger.error(msg)
+                       # print(msg,flush=True)
                     except sr.RequestError as e:
                         msg = "Google error; {0}".format(e)
-                        logger.error(msg)
-
-
+                       # print(msg,flush=True)
 
                 arquivoTemporario.close()
 
@@ -205,46 +171,40 @@ def send(mqtt_topic):
 
 
 if __name__ == "__main__":
+    print("Voice Recognizer", flush=True)
     FORMAT = pyaudio.paInt16
     CHUNK = 1024
     CHANNELS = 2
     RATE = 44100
     IP = "localhost"
-    PORT = 12345
+    PORT = 5000
+
+    print("porta: "+str(PORT))
 
     mqtt_topic = sys.argv[1]
     mqtt_hostname = sys.argv[2]
     mqtt_port = int(sys.argv[3])
-    lib = sys.argv[4]
+    mode = sys.argv[4]
 
-    print(mqtt_topic,flush=True)
-    print(mqtt_hostname,flush=True)
-    print(mqtt_port,flush=True)
-    print(lib,flush=True)
+    print("TOPIC: "+mqtt_topic,flush=True)
+    print("HOSTNAME: "+mqtt_hostname,flush=True)
+    print("PORT: "+str(mqtt_port),flush=True)
+    print("MODE: "+mode,flush=True)
 
     client.on_message = on_message
     #client.connect(mqtt_hostname, mqtt_port)
 
-    #p = pyaudio.PyAudio()
-
-    stream = ""
-    '''stream = p.open(format=FORMAT,
-                    channels=CHANNELS,
-                    rate=RATE,
-                    output=true,
-                    frames_per_buffer=CHUNK,
-                    )'''
-
-
-
     Ts = Thread(target=udpStream, args=(CHUNK, IP, PORT,))
-    Tp = Thread(target=play, args=(stream, CHUNK,))
+    Tp = Thread(target=transcribe, args=(CHUNK,))
     Te = Thread(target=send, args=(mqtt_topic,))
 
     Ts.setDaemon(True)
     Tp.setDaemon(True)
     Te.setDaemon(True)
+
+    print("Start udp", flush=True)
     Ts.start()
+
     Tp.start()
     Te.start()
     Ts.join()

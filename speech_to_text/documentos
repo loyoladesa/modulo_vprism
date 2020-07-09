@@ -1,0 +1,316 @@
+ 1  sudo pip3 install PyAudio
+    2  sudo pip install PyAudio
+    3  pip install pyaudio
+    4  sudo apt install python-pip
+    5  sudo pip install PyAudio
+    6  gcc
+    7  sudo apt-get install gcc
+    8  gcc
+    9  gcc -v
+   10  sudo pip install PyAudio
+   11  sudo apt-get install portaudio19-dev python-pyaudio
+   12  sudo pip install PyAudio
+   13  pip install PyAudio
+   14  sudo apt-get install python3-distutils
+   15  pip install PyAudio
+   16  sudo apt-get install portaudio19-dev python-pyaudio
+   17  pip install PyAudio
+   18  sudo pip intall PyAudio
+   19  sudo pip install PyAudio
+   20  pip3 install PyAudio
+   21  sudo apt-get install python3 python3-all-dev python3-pip build-essential swig git libpulse-dev
+   22  pip3 install pyaudio
+   23  pip3 install SpeechRecognition
+   24  sudo apt-get install python3 python3-all-dev python3-pip build-essential swig git libpulse-dev libasound2-dev
+   25  pip3 install pocketsphinx
+   26  ls
+   27  cd ..
+   28  ls
+   29  cd sidney
+   30  ls
+   31  cd PycharmProjects/
+   32  ls
+   33  cd mult/
+   34  ls
+   35  cd venv
+   36  ls
+   37  cd exemplo/
+   38  ls
+   39  python play.py teste.wav
+   40  ls
+   41  cd Py
+   42  cd PycharmProjects/
+   43  ls
+   44  cd mult/
+   45  ls
+   46  cd venv/
+   47  ls
+   48  cd exemplo/
+   49  ls
+   50  gst-launch-1.0 filesrc location=teste.wav ! wavparse ! audioconvert ! alsasink
+   51  gst-launch-1.0 filesrc location=teste.wav ! wavparse ! audioconvert ! udpsink host=localhost port=8000
+   52  gst-launch-1.0 filesrc location=teste.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+   53  ls
+   54  cd PycharmProjects/
+   55  ls
+   56  cd mult/
+   57  ls
+   58  cd venv/
+   59  ls
+   60  cd exemplo
+   61  ls
+   62  gst-launch-1.0 filesrc location=teste.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+   63  gst-launch-1.0 filesrc location=test.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+   64  gst-launch-1.0 filesrc location=roc.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+   65  gst-launch-1.0 filesrc location=roc.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+   66  ls
+   67  cd PycharmProjects/
+   68  ls
+   69  cd mult
+   70  ls
+   71  cd venv/
+   72  ls
+   73  cd exemplo/
+   74  ls
+   75  gst-launch-1.0 filesrc location=roc.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+   76  ./compile_src_and_vms.sh
+   77  ls
+   78  cd ..
+   79  ls
+   80  cd alfa/
+   81  ls
+   82  cd virtual-nodes/
+   83  ls
+   84  ./build_all.sh
+   85  cd ..
+   86  ls
+   87  cd virtual-nodes/
+   88  ls
+   89  cd device
+   90  ls
+   91  gst-launch-1.0     udpsrc port=5001 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96"     ! rtph264depay     ! decodebin     ! videoconvert     ! autovideosink
+   92  gst-launch-1.0     udpsrc port=10001 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96"     ! rtph264depay     ! decodebin     ! videoconvert     ! autovideosink
+   93  ls
+   94  cd video_sample/
+   95  ls
+   96  ./star.sh
+   97  ./start.sh
+   98  cd ..
+   99  ls
+  100  cd ..
+  101  ls
+  102  cd tools
+  103  ls
+  104  cd ..
+  105  ls
+  106  cd web-app/
+  107  ls
+  108  cd ..
+  109  ls
+  110  cd virtual-nodes/
+  111  ls
+  112  cd vms
+  113  ls
+  114  cd ..
+  115  ls
+  116  gst-launch-1.0     udpsrc port=10000 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96"     ! decodebin     ! queue2     ! autovideosink
+  117  gst-launch-1.0     udpsrc port=10001 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96"     ! decodebin     ! queue2     ! autovideosink
+  118  cd ..
+  119  gst-launch-1.0     udpsrc port=10000 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96"     ! decodebin     ! queue2     ! autovideosink
+  120  gst-launch-1.0     udpsrc port=10001 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96"     ! decodebin     ! queue2     ! autovideosink
+  121  ls
+  122  cd web-app/
+  123  npm install
+  124  npm run serve
+  125  sudo npm run serve
+  126  sudo npm install
+  127  virtualenv venv
+  128  sudo apt install virtualenv
+  129  virtualenv venv
+  130  source venv/bin/activate
+  131  deactivate
+  132  python3-virtualenv venv_3
+  133  virtualenv venv_3
+  134  python3 -m venv vprism-env
+  135  sudo apt-get install python3-venv
+  136  python3 -m venv vprism-env
+  137  source vprism-env/bin/activate
+  138  sudo apt-get install python3 python3-all-dev python3-pip build-essential swig git libpulse-dev
+  139  sudo apt-get install portaudio19-dev python-pyaudio
+  140  sudo apt-get install python3 python3-all-dev python3-pip build-essential swig git libpulse-dev libasound2-dev
+  141  pip3 install pocketsphinx
+  142  pip3 install SpeechRecognition
+  143  pip3 install PyAudio
+  144  ls
+  145  cd vprism-env/
+  146  ls
+  147  cd exemplo
+  148  ls
+  149  python transcribe.py
+  150  pyhton voice_recognizer.py
+  151  python voice_recognizer.py
+  152  clear
+  153  python voice_recognizer.py
+  154  python play.py black.wav
+  155  source vprism-env/bin/activate
+  156  python3 -m venv vprism-env
+  157  source vprism-env/bin/activate
+  158  python voice_recognizer.py
+  159  cd ..
+  160  ls
+  161  cd PycharmProjects/
+  162  ls
+  163  cd modulo_vprism/
+  164  ls
+  165  cd vprism-env/
+  166  ls
+  167  cd exemplo/
+  168  ls
+  169  gst-launch-1.0 filesrc location=black.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  170  gst-launch-1.0     udpsrc port=10001 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96"     ! decodebin     ! queue2     ! autovideosink
+  171  gst-launch-1.0     udpsrc port=10000 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96"     ! decodebin     ! queue2     ! autovideosink
+  172  gst-launch-1.0     udpsrc port=10001 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96"     ! decodebin     ! queue2     ! autovideosink
+  173  ls
+  174  cd alfa
+  175  ls
+  176  sudo docker-compose up
+  177  sudo apt-get install python3 python3-all-dev python3-pip build-essential swig git libpulse-dev
+  178  sudo apt-get install portaudio19-dev python-pyaudio
+  179  sudo apt-get install python3 python3-all-dev python3-pip build-essential swig git libpulse-dev libasound2-dev
+  180  pip3 install pocketsphinx
+  181  pip3 install SpeechRecognition
+  182  pip3 install PyAudio
+  183  tcpdump -i eth0
+  184  sudo tcpdump -i eth0
+  185  sudo tcpdump -D
+  186  sudo tcpdump -i enp0s3
+  187  sudo tcpdump -D
+  188  sudo tcpdump -i lo
+  189  ls
+  190  cd PycharmProjects/
+  191  ls
+  192  cd VMS_Recognizer_Audio/
+  193  LS
+  194  ls
+  195  cd venv/
+  196  ls
+  197  cd audio_recognizer_udp/
+  198  ls
+  199  cd sound
+  200  ls
+  201  gst-launch-1.0 filesrc location=black.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  202  ls
+  203  gst-launch-1.0 filesrc location=dark.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  204  ls
+  205  gst-launch-1.0 filesrc location=dark_side.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  206  gst-launch-1.0 filesrc location=black.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  207  gst-launch-1.0 filesrc location=dark_side.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  208  gst-launch-1.0 filesrc location=black.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  209  gst-launch-1.0 filesrc location=dark_side.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  210  gst-launch-1.0 filesrc location=black.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  211  gst-launch-1.0 filesrc location=dark_side.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  212  gst-launch-1.0 filesrc location=black.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  213  gst-launch-1.0 filesrc location=dark_side.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  214  gst-launch-1.0 filesrc location=black.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  215  gst-launch-1.0 filesrc location=dark_side.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  216  gst-launch-1.0 filesrc location=black.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  217  gst-launch-1.0 filesrc location=dark_side.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  218  gst-launch-1.0 filesrc location=black.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  219  gst-launch-1.0 filesrc location=clock.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  220  gst-launch-1.0 filesrc location=morning.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  221  gst-launch-1.0 filesrc location=clock.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  222  gst-launch-1.0 filesrc location=black.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  223  gst-launch-1.0 filesrc location=light.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  224  gst-launch-1.0 filesrc location=white.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  225  gst-launch-1.0 filesrc location=turn_on.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  226  gst-launch-1.0 filesrc location=turn_off.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  227  gst-launch-1.0 filesrc location=black.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  228  gst-launch-1.0 filesrc location=turn_on.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  229  gst-launch-1.0 filesrc location=turn_off.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  230  gst-launch-1.0 filesrc location=dark_side.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  231  gst-launch-1.0 filesrc location=turn_off.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  232  cd ..
+  233  ls
+  234  cd alfa
+  235  ls
+  236  sudo docker-compose up
+  237  cd ..
+  238  ls
+  239  cd PycharmProjects/
+  240  ls
+  241  cd VMS_Recognizer_Audio/
+  242  LS
+  243  ls
+  244  cd venv/
+  245  ls
+  246  cd audio_recognizer_udp/
+  247  ls
+  248  cd sound/
+  249  ls
+  250  gst-launch-1.0 filesrc location=black.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  251  gst-launch-1.0 filesrc location=dark_side.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  252  gst-launch-1.0 filesrc location=black.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  253  cd ..
+  254  ls
+  255  cd ..
+  256  ls
+  257  cd vms_voice_recognizer/
+  258  ls
+  259  docker ps
+  260  sudo docker ps
+  261  sudo docker build . -t alfa/vms/voice_recognizer
+  262  LS
+  263  ls
+  264  sudo docker build . -t alfa/vms/voice_recognizer
+  265  docker ps
+  266  sudo docker ps
+  267  ls
+  268  sudo ./start.sh
+  269  chmod +x start.sh
+  270  sudo ./start.sh
+  271  sudo docker ps
+  272  sudo docker build . -t alfa/vms/voice_recognizer
+  273  sudo docker ps
+  274  ls
+  275  cd ..
+  276  ls
+  277  cd alfa
+  278  ls
+  279  sudo docker-compose up
+  280  sudo apt install python3-tk
+  281  cd ..
+  282  ls
+  283  cd VMS_Recognizer_Audio/
+  284  LS
+  285  ls
+  286  cd venv/
+  287  ls
+  288  cd audio_recognizer_udp/
+  289  ls
+  290  cd sound
+  291  gst-launch-1.0 filesrc location=dark_side.wav ! wavparse ! audioconvert ! udpsink host=172.17.0.1 port=10001
+  292*
+  293  gst-launch-1.0 filesrc location=dark_side.wav ! wavparse ! audioconvert ! udpsink host=172.17.0.1 port=10001
+  294  gst-launch-1.0 filesrc location=dark_side.wav ! wavparse ! audioconvert ! udpsink host1 port=12345
+  295  gst-launch-1.0 filesrc location=dark_side.wav ! wavparse ! audioconvert ! udpsink host=localhost port=12345
+  296  df -H
+  297  gst-launch-1.0 filesrc location=dark_side.wav ! wavparse ! audioconvert ! udpsink host= localhost  port=12345
+  298  gst-launch-1.0 filesrc location=dark_side.wav ! wavparse ! audioconvert ! udpsink host=172.17.0.1 port=10001
+  299  history
+  300  gst-launch-1.0 filesrc location=dark_side.wav ! wavparse ! audioconvert ! udpsink host=172.17.0.1 port=10001
+  301  ifconfig
+  302  gst-launch-1.0 filesrc location=dark_side.wav ! wavparse ! audioconvert ! udpsink host=172.17.0.1 port=10001
+  303  gst-launch-1.0 filesrc location=/home/sidney/musica.mp3 ! mp3parse ! audioconvert ! udpsink host=172.17.0.1 port=10001
+  304  gst-launch-1.0 filesrc location=/home/sidney/musica.mp3 ! mpegaudioparse ! audioconvert ! udpsink host=172.17.0.1 port=10001
+  305  gst-launch-1.0 filesrc location=/home/sidney/musica.mp3 ! mpegaudioparse ! mpg123audiodec  ! audioconvert ! udpsink host=172.17.0.1 port=10001
+  306  ! capsfilter caps="audio/x-raw, rate=16000, channels=1, format=S16LE" ! audiomixer blocksize=320 \
+  307  ccccgst-launch-1.0 multifilesrc location=/home/sidney/musica.mp3 loop=true     ! tee name=t     ! queue ! mpegaudioparse ! mpg123audiodec ! audioconvert ! audioresample ! capsfilter caps="audio/x-raw, rate=16000, channels=1, format=S16LE" ! audiomixer blocksize=320 \
+  308  gst-launch-1.0 multifilesrc location=/home/sidney/musica.mp3 loop=true     ! tee name=t     ! queue ! mpegaudioparse ! mpg123audiodec ! audioconvert ! audioresample ! capsfilter caps="audio/x-raw, rate=16000, channels=1, format=S16LE" ! audiomixer blocksize=320 ! udpsink host=172.17.0.1 port=10001
+  309  gst-launch-1.0 filesrc location=dark_side.wav ! wavparse ! audioconvert ! udpsink host=172.17.0.1 port=10001
+  310  history
+  311  gst-launch-1.0 multifilesrc location=/home/sidney/music.mp3 loop=true     ! tee name=t     ! queue ! mpegaudioparse ! mpg123audiodec ! audioconvert ! audioresample ! capsfilter caps="audio/x-raw, rate=16000, channels=1, format=S16LE" ! audiomixer blocksize=320 ! udpsink host=172.17.0.1 port=10001
+  312  gst-launch-1.0 filesrc location=dark_side.wav ! wavparse ! audioconvert ! udpsink host=172.17.0.1 port=10001
+  313  gst-launch-1.0 filesrc location=black.wav ! wavparse ! audioconvert ! udpsink host=172.17.0.1 port=10001
+  314  gst-launch-1.0 filesrc location=turn_on.wav ! wavparse ! audioconvert ! udpsink host=172.17.0.1 port=10001
+  315  gst-launch-1.0 filesrc location=black.wav ! wavparse ! audioconvert ! udpsink host=172.17.0.1 port=10001
+  316  gst-launch-1.0 filesrc location=dark_side.wav ! wavparse ! audioconvert ! udpsink host=172.17.0.1 port=10001
