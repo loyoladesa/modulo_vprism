@@ -42,8 +42,6 @@ mode = ""
 transcreveuAudio = False
 
 def udpStream(CHUNK, IP, PORT):
-    print("Função para receber o fluxo udp", flush=True)
-
 
     udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
@@ -65,68 +63,69 @@ def transcribe(CHUNK):
 
     global frase
     global transcreveuAudio
-    cont = 0
 
     while True:
+
         if len(frames) == buffer:
+
             while True:
 
-                #Acessa a biblioteca SpeechRecognition
-                voice_recognizer = sr.Recognizer()
+                    # Acessa a biblioteca SpeechRecognition
+                    voice_recognizer = sr.Recognizer()
 
-                #Grava arquivo temporario para facilitar a transcrição
-                arquivoTemporario = tempfile.TemporaryFile()
-                with wave.open(arquivoTemporario, 'wb') as wf:
-                    wf.setnchannels(CHANNELS)
-                    wf.setsampwidth(2)
-                    wf.setframerate(RATE)
-                    wf.writeframes(b''.join(frames))
-                arquivoTemporario.seek(0)
+                    # Grava arquivo temporario para facilitar a transcrição
+                    arquivoTemporario = tempfile.TemporaryFile()
+                    with wave.open(arquivoTemporario, 'wb') as wf:
+                        wf.setnchannels(CHANNELS)
+                        wf.setsampwidth(2)
+                        wf.setframerate(RATE)
+                        wf.writeframes(b''.join(frames))
+                    arquivoTemporario.seek(0)
 
+                    #print("Arquivo Criado")
 
-                # A próxima linha capta a fonte do aúdio
-                with sr.AudioFile(arquivoTemporario) as source:
+                    # A próxima linha capta a fonte do aúdio
+                    with sr.AudioFile(arquivoTemporario) as source:
 
-                    # Chama um algoritmo de reducao de ruidos no som
-                    voice_recognizer.adjust_for_ambient_noise(source)
+                        # Chama um algoritmo de reducao de ruidos no som
+                        voice_recognizer.adjust_for_ambient_noise(source)
 
-                    #print("Armazena o aúdio em uma variável")
-                    audio = voice_recognizer.record(source)
+                        # print("Armazena o aúdio em uma variável")
+                        audio = voice_recognizer.record(source)
 
-                if(mode == "OFF"):
-                    try:
-                        # Acessa a API
-                        frase = voice_recognizer.recognize_sphinx(audio)
-                        print("Audio: " + frase, flush=True)
-                        transcreveuAudio = True
-                        frames.clear()
+                    if (mode == "OFF"):
+                        try:
+                            # Acessa a API
+                            frase = voice_recognizer.recognize_sphinx(audio)
+                            print("Audio: " + frase, flush=True)
+                            transcreveuAudio = True
+                            frames.clear()
 
-                    # Se nao reconheceu o padrao de fala registra no log
-                    except sr.UnknownValueError:
-                        msg = "Sphinx could not understand audio"
-                        '''cont = cont + 1
-                        if(cont==10):
-                            print(msg,flush=True)
-                            cont = 0'''
+                        # Se nao reconheceu o padrao de fala registra no log
+                        except sr.UnknownValueError:
+                            msg = "Sphinx could not understand audio"
+                            '''cont = cont + 1
+                            if(cont==10):
+                                print(msg,flush=True)
+                                cont = 0'''
 
-                else:
-                    try:
-                        # Acessa a API
-                        frase = voice_recognizer.recognize_google(audio)
-                        print("Audio: " + frase,flush=True)
-                        transcreveuAudio = True
-                        frames.clear()
+                    else:
+                        try:
+                            # Acessa a API
+                            frase = voice_recognizer.recognize_google(audio)
+                            print("Audio: " + frase, flush=True)
+                            transcreveuAudio = True
+                            frames.clear()
 
-                    # Se nao reconheceu o padrao de fala registra no log
-                    except sr.UnknownValueError:
-                        msg = "Google could not understand audio"
-                        '''cont = cont +1
-                        if (cont == 10):
-                            print(msg, flush=True)
-                            cont = 0'''
+                        # Se nao reconheceu o padrao de fala registra no log
+                        except sr.UnknownValueError:
+                            msg = "Google could not understand audio"
+                            '''cont = cont +1
+                            if (cont == 10):
+                                print(msg, flush=True)
+                                cont = 0'''
 
-
-                arquivoTemporario.close()
+                    arquivoTemporario.close()
 
 
 def send(mqtt_topic):
@@ -144,7 +143,7 @@ def send(mqtt_topic):
 
 
 if __name__ == "__main__":
-    print("Speech To Text", flush=True)
+    print("VMS Speech To Text: Inicializado", flush=True)
     FORMAT = pyaudio.paInt16
     CHUNK = 1024
     CHANNELS = 2
@@ -158,10 +157,10 @@ if __name__ == "__main__":
     mode = sys.argv[4]
 
     #Utilizado para debugar o desenvolvimento do VMS
-    print("TOPIC: "+mqtt_topic,flush=True)
-    print("HOSTNAME: "+mqtt_hostname,flush=True)
-    print("PORT: "+str(mqtt_port),flush=True)
-    print("MODE: "+mode,flush=True)
+    #print("TOPIC: "+mqtt_topic,flush=True)
+    #print("HOSTNAME: "+mqtt_hostname,flush=True)
+    #print("PORT: "+str(mqtt_port),flush=True)
+    #print("MODE: "+mode,flush=True)
 
 
     Ts = Thread(target=udpStream, args=(CHUNK, IP, PORT,))

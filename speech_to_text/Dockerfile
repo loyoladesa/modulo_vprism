@@ -65,36 +65,15 @@ RUN apt-get install -y --fix-missing \
     python3-gi \
     python3-gst-1.0
 
-#RUN apt-get install libasound-dev
-#RUN apt-get update
-#RUN apt-get install libasound2-dev
-
-
-#RUN apt-get --assume-yes install libasound-dev portaudio19-dev     libportaudio2 libportaudiocpp0
 RUN pip3 install pyaudio
 RUN pip3 install websocket-client
 RUN pip3 install playsound
-
-#RUN apt-get install libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0
-
-
-#RUN apt-get install python3 python3-all-dev python3-pip build-essential swig git libpulse-dev
-
-#RUN apt-get install portaudio19-dev python-pyaudio
-#RUN apt-get install python3 python3-all-dev python3-pip build-essential swig git libpulse-dev libasound2-dev
-
 RUN python -m pip install --upgrade pip
-
-#RUN apt-get install python-pyaudio python3-pyaudio
-
 RUN pip3 install paho-mqtt
 RUN pip3 install opencv-python
 RUN pip3 install numpy==1.15.4
-
 RUN pip3 install pocketsphinx
-
 RUN pip3 install SpeechRecognition
-#RUN pip3 install PyAudio
 
 RUN apt-get install -y --fix-missing libgirepository1.0-dev
 RUN pip install --no-binary gobject PyGObject

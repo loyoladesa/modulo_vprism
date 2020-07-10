@@ -314,3 +314,13 @@
   314  gst-launch-1.0 filesrc location=turn_on.wav ! wavparse ! audioconvert ! udpsink host=172.17.0.1 port=10001
   315  gst-launch-1.0 filesrc location=black.wav ! wavparse ! audioconvert ! udpsink host=172.17.0.1 port=10001
   316  gst-launch-1.0 filesrc location=dark_side.wav ! wavparse ! audioconvert ! udpsink host=172.17.0.1 port=10001
+  docker ps
+
+  docker exec -it CONTAINER_ID bash
+
+  mongo localhost:27017/alfa_18
+
+  db.vms.drop()
+
+docker container stop $(docker container ls –aq)
+
