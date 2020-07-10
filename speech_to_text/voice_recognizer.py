@@ -3,7 +3,7 @@ Reconhecimento de voz de fluxo recebido em uma porta com o protocolo UDP.
 Envia o Texto para um servidor mqtt
 Created by: Sidney Loyola de Sá
 Date: 23/05/2020
-Last Modified: 07/07/2020
+Last Modified: 10/07/2020
 
 Parâmetros:
 
@@ -12,15 +12,10 @@ Parâmetros:
 [3] : PORTA MQTT
 [4]: MODE - ON - utiliza API do google (precisa de Internet) OFF - utiliza o Sphinx - Executa Offline
 
-Servidor MQTT para teste:
-TÓPICO: v-prism
-Hostname: env-3019652.users.scale.virtualcloud.com.br
-Porta: 11002
-
 Configuração:
 
 IP = "localhost"
-PORT = 12345
+PORT = 5000
 
 '''
 
@@ -28,9 +23,6 @@ PORT = 12345
 import sys
 import time
 import paho.mqtt.publish as publish
-import paho.mqtt.client as mqtt
-
-
 import pyaudio
 import socket
 import speech_recognition as sr
@@ -39,7 +31,7 @@ import io
 import wave
 from os import path
 import tempfile
-import logging
+
 
 
 frames = []
@@ -47,12 +39,7 @@ logs = []
 mode = ""
 
 #variável booleana de controle
-recebeu = False
-
-#cria a instância de cliente mqtt
-client = mqtt.Client("vms_voice_recognizer")
-
-
+transcreveuAudio = False
 
 def udpStream(CHUNK, IP, PORT):
     print("Função para receber o fluxo udp", flush=True)
@@ -64,7 +51,6 @@ def udpStream(CHUNK, IP, PORT):
     udp.bind(('', PORT))
 
     while True:
-        #print("recebendo ...",flush=True)
         sound_data, addr = udp.recvfrom(CHUNK * CHANNELS * 2)
         frames.append(sound_data)
 
@@ -78,23 +64,24 @@ def transcribe(CHUNK):
     print("Recebendo Fluxo de Aúdio:",flush=True)
 
     global frase
-    global recebeu
+    global transcreveuAudio
+    cont = 0
 
     while True:
         if len(frames) == buffer:
             while True:
-                #print("Análise do Buffer")
-                voice_recognizer = sr.Recognizer()
-                arquivoTemporario = tempfile.TemporaryFile()
 
+                #Acessa a biblioteca SpeechRecognition
+                voice_recognizer = sr.Recognizer()
+
+                #Grava arquivo temporario para facilitar a transcrição
+                arquivoTemporario = tempfile.TemporaryFile()
                 with wave.open(arquivoTemporario, 'wb') as wf:
                     wf.setnchannels(CHANNELS)
                     wf.setsampwidth(2)
                     wf.setframerate(RATE)
                     wf.writeframes(b''.join(frames))
                 arquivoTemporario.seek(0)
-
-                #print("Terminou de Montar o Arquivo Temporário")
 
 
                 # A próxima linha capta a fonte do aúdio
@@ -108,70 +95,56 @@ def transcribe(CHUNK):
 
                 if(mode == "OFF"):
                     try:
-                        # Passa a variável para o algoritmo reconhecedor de padroes
-                        #print("Transforma o Audio em Texto Sphinx",flush=True)
+                        # Acessa a API
                         frase = voice_recognizer.recognize_sphinx(audio)
                         print("Audio: " + frase, flush=True)
-                        recebeu = True
+                        transcreveuAudio = True
                         frames.clear()
 
                     # Se nao reconheceu o padrao de fala registra no log
                     except sr.UnknownValueError:
                         msg = "Sphinx could not understand audio"
-                       # print(msg,flush=True)
-                    except sr.RequestError as e:
-                        msg = "Sphinx error; {0}".format(e)
-                        #print(msg,flush=True)
+                        '''cont = cont + 1
+                        if(cont==10):
+                            print(msg,flush=True)
+                            cont = 0'''
+
                 else:
                     try:
-                        # Passa a variável para o algoritmo reconhecedor de padroes
-                        #print("Transforma o Audio em Texto Google",flush=True)
+                        # Acessa a API
                         frase = voice_recognizer.recognize_google(audio)
                         print("Audio: " + frase,flush=True)
-                        recebeu = True
+                        transcreveuAudio = True
                         frames.clear()
 
                     # Se nao reconheceu o padrao de fala registra no log
                     except sr.UnknownValueError:
                         msg = "Google could not understand audio"
-                       # print(msg,flush=True)
-                    except sr.RequestError as e:
-                        msg = "Google error; {0}".format(e)
-                       # print(msg,flush=True)
+                        '''cont = cont +1
+                        if (cont == 10):
+                            print(msg, flush=True)
+                            cont = 0'''
+
 
                 arquivoTemporario.close()
-
-
-def on_message(client, userdata, message):
-    #Função Callback do client mqtt para ver a mensagem que foi enviada
-    print("message send ", str(message.payload.decode("utf-8")),flush=True)
-    print("message topic=", message.topic,flush=True)
 
 
 def send(mqtt_topic):
     #Função para enviar o texto para um servidor mqtt
 
     while True:
-        global recebeu
-        global client
+        global transcreveuAudio
 
-
-        if recebeu:
-            #se recebeu aúdio e ele foi transformado em texto
-            '''client.loop_start()
-            client.subscribe(mqtt_topic) # se inscreve no tópico
-            client.publish(mqtt_topic, frase) # envia para o servidor
-            time.sleep(4)
-            client.loop_stop()'''
-
-            publish.single(mqtt_topic,frase, hostname=mqtt_hostname, port=int(mqtt_port))
-            recebeu = False
+        if transcreveuAudio:
+            #Publica no servidor MQTT se recebeu aúdio e ele foi transformado em texto
+            publish.single(topic=mqtt_topic,payload=frase, hostname=mqtt_hostname, port=int(mqtt_port))
+            transcreveuAudio = False
 
 
 
 
 if __name__ == "__main__":
-    print("Voice Recognizer", flush=True)
+    print("Speech To Text", flush=True)
     FORMAT = pyaudio.paInt16
     CHUNK = 1024
     CHANNELS = 2
@@ -179,20 +152,17 @@ if __name__ == "__main__":
     IP = "localhost"
     PORT = 5000
 
-    print("porta: "+str(PORT))
-
     mqtt_topic = sys.argv[1]
     mqtt_hostname = sys.argv[2]
     mqtt_port = int(sys.argv[3])
     mode = sys.argv[4]
 
+    #Utilizado para debugar o desenvolvimento do VMS
     print("TOPIC: "+mqtt_topic,flush=True)
     print("HOSTNAME: "+mqtt_hostname,flush=True)
     print("PORT: "+str(mqtt_port),flush=True)
     print("MODE: "+mode,flush=True)
 
-    client.on_message = on_message
-    #client.connect(mqtt_hostname, mqtt_port)
 
     Ts = Thread(target=udpStream, args=(CHUNK, IP, PORT,))
     Tp = Thread(target=transcribe, args=(CHUNK,))
@@ -202,11 +172,11 @@ if __name__ == "__main__":
     Tp.setDaemon(True)
     Te.setDaemon(True)
 
-    print("Start udp", flush=True)
-    Ts.start()
 
+    Ts.start()
     Tp.start()
     Te.start()
+
     Ts.join()
     Tp.join()
     Te.join()
