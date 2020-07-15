@@ -1,3 +1,4 @@
+
 '''
 Reconhecimento de voz de fluxo recebido em uma porta com o protocolo UDP.
 Envia o Texto para um servidor mqtt
@@ -32,7 +33,7 @@ import wave
 from os import path
 import tempfile
 
-
+from speech_recognition import AudioFile
 
 frames = []
 logs = []
@@ -40,6 +41,8 @@ mode = ""
 
 #variável booleana de controle
 transcreveuAudio = False
+API_funcionou = True
+
 
 def udpStream(CHUNK, IP, PORT):
 
@@ -48,9 +51,12 @@ def udpStream(CHUNK, IP, PORT):
     # define o IP e a porta
     udp.bind(('', PORT))
 
+
+
     while True:
         sound_data, addr = udp.recvfrom(CHUNK * CHANNELS * 2)
         frames.append(sound_data)
+
 
     udp.close()
 
@@ -64,9 +70,11 @@ def transcribe(CHUNK):
     global frase
     global transcreveuAudio
 
+
     while True:
 
         if len(frames) == buffer:
+            #print("buffer carregado")
 
             while True:
 
@@ -75,6 +83,8 @@ def transcribe(CHUNK):
 
                     # Grava arquivo temporario para facilitar a transcrição
                     arquivoTemporario = tempfile.TemporaryFile()
+                    #arquivoTemporario = 'output.wav'
+
                     with wave.open(arquivoTemporario, 'wb') as wf:
                         wf.setnchannels(CHANNELS)
                         wf.setsampwidth(2)
@@ -88,9 +98,9 @@ def transcribe(CHUNK):
                     with sr.AudioFile(arquivoTemporario) as source:
 
                         # Chama um algoritmo de reducao de ruidos no som
-                        voice_recognizer.adjust_for_ambient_noise(source)
+                        #voice_recognizer.adjust_for_ambient_noise(source)
 
-                        # print("Armazena o aúdio em uma variável")
+                        #print("Armazena o aúdio em uma variável")
                         audio = voice_recognizer.record(source)
 
                     if (mode == "OFF"):
@@ -99,6 +109,7 @@ def transcribe(CHUNK):
                             frase = voice_recognizer.recognize_sphinx(audio)
                             print("Audio: " + frase, flush=True)
                             transcreveuAudio = True
+                            temAudio = False
                             frames.clear()
 
                         # Se nao reconheceu o padrao de fala registra no log
@@ -111,19 +122,18 @@ def transcribe(CHUNK):
 
                     else:
                         try:
-                            # Acessa a API
+                            #print("Acessa a API Google")
                             frase = voice_recognizer.recognize_google(audio)
                             print("Audio: " + frase, flush=True)
                             transcreveuAudio = True
+                            temAudio = False
                             frames.clear()
 
                         # Se nao reconheceu o padrao de fala registra no log
                         except sr.UnknownValueError:
-                            msg = "Google could not understand audio"
-                            '''cont = cont +1
-                            if (cont == 10):
-                                print(msg, flush=True)
-                                cont = 0'''
+                            msg=''
+                            #print("Google could not understand audio")
+
 
                     arquivoTemporario.close()
 
@@ -136,7 +146,7 @@ def send(mqtt_topic):
 
         if transcreveuAudio:
             #Publica no servidor MQTT se recebeu aúdio e ele foi transformado em texto
-            publish.single(topic=mqtt_topic,payload=frase, hostname=mqtt_hostname, port=int(mqtt_port))
+            #publish.single(topic=mqtt_topic,payload=frase, hostname=mqtt_hostname, port=int(mqtt_port))
             transcreveuAudio = False
 
 
